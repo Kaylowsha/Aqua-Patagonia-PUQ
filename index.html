@@ -632,35 +632,56 @@
             color: var(--turquesa);
         }
 
-        /* ===== TOUR 360 ===== */
-        .tour-wrapper {
-            position: relative;
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%;
-            background: var(--gris-suave);
+        /* ===== VIDEOS DE LA EMBARCACIÓN ===== */
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .video-card {
+            background: var(--blanco);
             border-radius: 15px;
             overflow: hidden;
             box-shadow: var(--sombra-media);
+            transition: var(--transicion);
         }
 
-        .tour-wrapper iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--sombra-fuerte);
+        }
+
+        .video-wrapper {
+            position: relative;
             width: 100%;
-            height: 100%;
-            border: none;
+            background: #000;
         }
 
-        .tour-note {
-            text-align: center;
-            margin-top: 1rem;
-            padding: 1rem;
-            background: rgba(0,180,216,0.1);
-            border-radius: 10px;
+        .video-wrapper video {
+            width: 100%;
+            height: auto;
+            display: block;
+            max-height: 400px;
+            object-fit: contain;
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-info h4 {
+            color: var(--azul-marino);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .video-info p {
             color: var(--gris-texto);
-            font-style: italic;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0;
         }
 
         /* ===== EXPERIENCIA ===== */
@@ -984,8 +1005,8 @@
                 grid-template-columns: 1fr;
             }
 
-            .tour-wrapper {
-                padding-bottom: 75%;
+            .videos-grid {
+                grid-template-columns: 1fr;
             }
 
             .stats-container {
@@ -1215,18 +1236,53 @@
                 </div>
             </div>
             
-            <!-- Tour 360 -->
+            <!-- Videos de la Embarcación -->
             <div style="margin-top: 4rem;">
-                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--azul-marino);">Tour Virtual 360°</h3>
-                <div class="tour-wrapper" style="background: linear-gradient(135deg, rgba(0,180,216,0.1), rgba(0,52,89,0.1)); display: flex; align-items: center; justify-content: center; flex-direction: column; padding-bottom: 56.25%;">
-                    <div style="position: absolute; text-align: center; color: var(--azul-marino);">
-                        <div style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.3;">🚢</div>
-                        <h4 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--turquesa);">Próximamente</h4>
-                        <p style="font-size: 1.1rem; color: var(--gris-texto); opacity: 0.8;">Tour exclusivo 360° de nuestras embarcaciones</p>
+                <h3 style="text-align: center; margin-bottom: 2rem; color: var(--azul-marino);">Videos de la Embarcación</h3>
+                <p style="text-align: center; color: var(--gris-texto); margin-bottom: 2rem;">Recorre las instalaciones internas de la L/M Susana Belén</p>
+
+                <div class="videos-grid">
+                    <!-- Video 1: Camarotes -->
+                    <div class="video-card animate-on-scroll">
+                        <div class="video-wrapper">
+                            <video controls preload="metadata" poster="">
+                                <source src="assets/videos/V1.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de videos.
+                            </video>
+                        </div>
+                        <div class="video-info">
+                            <h4>🛏️ Camarotes y Habitabilidad</h4>
+                            <p>Instalaciones cómodas para la tripulación durante largas jornadas en el mar</p>
+                        </div>
                     </div>
-                </div>
-                <div class="tour-note">
-                    <p>🔄 Estamos preparando una experiencia inmersiva de nuestras instalaciones y flota</p>
+
+                    <!-- Video 2: Motor -->
+                    <div class="video-card animate-on-scroll">
+                        <div class="video-wrapper">
+                            <video controls preload="metadata" poster="">
+                                <source src="assets/videos/V2.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de videos.
+                            </video>
+                        </div>
+                        <div class="video-info">
+                            <h4>⚙️ Sistema de Propulsión y Motor</h4>
+                            <p>Tecnología confiable y potente para operaciones marítimas exigentes</p>
+                        </div>
+                    </div>
+
+                    <!-- Video 3: Cocina/Comedor -->
+                    <div class="video-card animate-on-scroll">
+                        <div class="video-wrapper">
+                            <video controls preload="metadata" poster="">
+                                <source src="assets/videos/V3.mp4" type="video/mp4">
+                                Tu navegador no soporta la reproducción de videos.
+                            </video>
+                        </div>
+                        <div class="video-info">
+                            <h4>🍽️ Cocina y Comedor</h4>
+                            <p>Áreas equipadas para la preparación de alimentos y descanso de la tripulación</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1825,6 +1881,28 @@
             if (e.target.id === 'lightbox') {
                 closeLightbox();
             }
+        });
+
+        // ===== VIDEO CONTROLS =====
+        // Pausar otros videos cuando se reproduce uno
+        document.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('.video-wrapper video');
+
+            videos.forEach(video => {
+                video.addEventListener('play', function() {
+                    // Pausar todos los demás videos
+                    videos.forEach(otherVideo => {
+                        if (otherVideo !== video) {
+                            otherVideo.pause();
+                        }
+                    });
+                });
+
+                // Lazy loading mejorado
+                video.addEventListener('loadedmetadata', function() {
+                    console.log('Video cargado:', video.src);
+                });
+            });
         });
     </script>
 
